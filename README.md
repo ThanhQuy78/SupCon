@@ -1,1 +1,1 @@
-# SupCon
+# This repository implements Supervised Contrastive Learning (SupCon) for fingerprint Presentation Attack Detection (FinPAD), combined with few-shot classification during inference using feature-based similarity (cosine matching)
