@@ -10,7 +10,7 @@ NUM_CLASSES = 8
 BATCH_SIZE = 64
 IMAGE_SIZE = 224
 
-encoder_path = "best_model.pth"
+encoder_path = backbone + "_model.pth"
 classifier_path = "classifier_best.pth"
 data_root = "2011/Fingerprint/Testing/ItaldataTest/ItaldataTest/Spoof"
 
@@ -21,12 +21,7 @@ def main():
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=4)
 
     encoder = ResNetEncoder(backbone=backbone, pretrained=False).to(device)
-    state = torch.load(encoder_path, map_location=device)
-
-    encoder_state = {
-        k.replace("0.", "", 1): v  for k, v in state.items() if k.startswith("0.model")
-    }
-    encoder.load_state_dict(encoder_state, strict=False)
+    encoder.load_state_dict(torch.load(encoder_path, map_location= device), strict=False)
     encoder.eval()
 
     classifier_head = ClassifierHead(encoder.feature_dim, NUM_CLASSES).to(device)
